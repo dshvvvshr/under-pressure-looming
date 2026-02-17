@@ -198,3 +198,15 @@ The system gets better at recognizing threats and guiding users, while the Core 
 
 See [LEARNING_ARCHITECTURE.md](docs/LEARNING_ARCHITECTURE.md) for complete details.
 
+
+## 💾 Storage Management
+
+The system logs every decision but prevents storage bloat through:
+- **Automatic rotation** - Keeps last 1,000 decisions active
+- **Compression** - Archives compressed to ~10% of original size
+- **Retention policy** - Auto-cleanup after 1 year (configurable)
+
+**Result:** Unlimited logging with bounded storage (~140 MB/year for 10K decisions/day)
+
+See [STORAGE_MANAGEMENT.md](docs/STORAGE_MANAGEMENT.md) for details.
+

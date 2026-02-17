@@ -16,6 +16,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
 from enum import Enum
+from learning.storage_manager import StorageManager
 
 
 class DecisionType(Enum):
@@ -84,6 +85,11 @@ class SelfEvolvingLearner:
     
     def __init__(self, storage_path: str = "/home/ubuntu/under-pressure-looming/learning/data"):
         self.storage_path = storage_path
+        self.storage = StorageManager(
+            storage_path=storage_path,
+            max_active_decisions=1000,  # Keep last 1000 in active file
+            retention_days=365  # Keep archives for 1 year
+        )
         self.decision_history: List[DecisionRecord] = []
         self.detection_rules: List[DetectionRule] = []
         self.load_state()
@@ -317,11 +323,13 @@ class SelfEvolvingLearner:
         return False, None
     
     def get_statistics(self) -> Dict:
-        """Get learning statistics"""
+        """Get learning statistics including storage info"""
         total_decisions = len(self.decision_history)
         denied = len([r for r in self.decision_history if r.decision == DecisionType.DENY])
         approved = len([r for r in self.decision_history if r.decision == DecisionType.APPROVE])
         boundary = len([r for r in self.decision_history if r.decision == DecisionType.BOUNDARY])
+        
+        storage_stats = self.storage.get_storage_stats()
         
         return {
             'total_decisions': total_decisions,
@@ -332,42 +340,34 @@ class SelfEvolvingLearner:
             },
             'learned_rules': len(self.detection_rules),
             'active_rules': len([r for r in self.detection_rules if r.enabled]),
-            'average_rule_confidence': sum(r.confidence for r in self.detection_rules) / len(self.detection_rules) if self.detection_rules else 0.0
+            'average_rule_confidence': sum(r.confidence for r in self.detection_rules) / len(self.detection_rules) if self.detection_rules else 0.0,
+            'storage': storage_stats
         }
     
     def save_state(self):
-        """Save learning state to disk"""
-        import os
-        os.makedirs(self.storage_path, exist_ok=True)
-        
-        # Save decision history
-        with open(f"{self.storage_path}/decisions.json", 'w') as f:
-            json.dump([r.to_dict() for r in self.decision_history], f, indent=2)
+        """Save learning state to disk with automatic rotation"""
+        # Save decision history (with automatic rotation)
+        self.storage.save_decisions([r.to_dict() for r in self.decision_history])
         
         # Save detection rules
-        with open(f"{self.storage_path}/rules.json", 'w') as f:
-            json.dump([r.to_dict() for r in self.detection_rules], f, indent=2)
+        self.storage.save_rules([r.to_dict() for r in self.detection_rules])
+        
+        # Cleanup old archives periodically
+        if len(self.decision_history) % 100 == 0:
+            self.storage.cleanup_old_archives()
     
     def load_state(self):
         """Load learning state from disk"""
-        import os
-        
-        # Load decision history
-        decisions_file = f"{self.storage_path}/decisions.json"
-        if os.path.exists(decisions_file):
-            with open(decisions_file, 'r') as f:
-                data = json.load(f)
-                self.decision_history = [
-                    DecisionRecord(**{**d, 'decision': DecisionType(d['decision'])})
-                    for d in data
-                ]
+        # Load decision history (active only for memory efficiency)
+        data = self.storage.load_decisions()
+        self.decision_history = [
+            DecisionRecord(**{**d, 'decision': DecisionType(d['decision'])})
+            for d in data
+        ]
         
         # Load detection rules
-        rules_file = f"{self.storage_path}/rules.json"
-        if os.path.exists(rules_file):
-            with open(rules_file, 'r') as f:
-                data = json.load(f)
-                self.detection_rules = [DetectionRule(**d) for d in data]
+        data = self.storage.load_rules()
+        self.detection_rules = [DetectionRule(**d) for d in data]
 
 
 # Global learner instance
