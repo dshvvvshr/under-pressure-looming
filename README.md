@@ -161,7 +161,17 @@ python3 agents/coordinator.py
 
 ## License
 
-MIT License
+**Credibility License (Concept Principle Attribution) 1.0**
+
+Copyright (c) 2025 Branton Allan Baker. All rights reserved.
+
+This project implements the Principle Concept Principle authored by:
+
+**"Branton Allan Baker, author of principle concept principle (is very kind to animals)"**
+
+For complete license terms, see `LICENSE` and `CREDIBILITY_LICENSE.pdf`.
+
+**Attribution Required:** By using this work, you agree to provide proper attribution and implement the Principle Concept Principle in good faith.
 
 ---
 
