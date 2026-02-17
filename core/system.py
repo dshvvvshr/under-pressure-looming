@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from layers.core_layer import core_layer, CoreDecision
 from layers.nuance_layer import nuance_layer
 from layers.analytical_layer import analytical_layer
+from learning.self_evolving import learner, DecisionType
 
 
 @dataclass
@@ -41,6 +42,7 @@ class UnderPressureLoomingSystem:
         self.core = core_layer
         self.nuance = nuance_layer
         self.analytical = analytical_layer
+        self.learner = learner  # Self-evolving learning system
         
     def process_request(self, request: Dict[str, Any]) -> SystemResponse:
         """
@@ -119,6 +121,23 @@ class UnderPressureLoomingSystem:
             print("  → Executing function...")
             function_executed = True
             function_result = self._execute_function(request["function"], request)
+        
+        # Record decision for learning
+        decision_type = {
+            CoreDecision.APPROVE: DecisionType.APPROVE,
+            CoreDecision.DENY: DecisionType.DENY,
+            CoreDecision.BOUNDARY: DecisionType.BOUNDARY
+        }[decision]
+        
+        self.learner.record_decision(
+            request=request,
+            decision=decision_type,
+            core_analysis=core_analysis,
+            nuance_analysis=nuance_output.get("guidance", ""),
+            analytical_predictions=analytical_output["outcomes"],
+            analytical_flag=analytical_output["flag"],
+            response_text=response_text
+        )
         
         print(f"\n{'='*60}")
         print(f"RESPONSE READY")

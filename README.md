@@ -176,3 +176,25 @@ For complete license terms, see `LICENSE` and `CREDIBILITY_LICENSE.pdf`.
 ---
 
 *"The inalienable right to pursue happiness - protected forever."*
+
+## 🧠 Self-Evolving Learning System
+
+The system implements **autonomous learning** based on Prime Security's autonomic computing principles.
+
+### What Evolves
+- ✅ **Analytical Layer** - Better detection patterns
+- ✅ **Nuance Layer** - Better guidance strategies
+- ❌ **Core** - NEVER changes (immutable forever)
+
+### How It Learns
+Every 10 decisions, the system:
+1. Identifies gaps in detection
+2. Generates candidate rules
+3. Tests against historical data
+4. Deploys rules with >80% success rate
+
+### The Result
+The system gets better at recognizing threats and guiding users, while the Core remains pure and unchanging.
+
+See [LEARNING_ARCHITECTURE.md](docs/LEARNING_ARCHITECTURE.md) for complete details.
+
