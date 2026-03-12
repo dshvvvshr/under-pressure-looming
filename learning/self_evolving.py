@@ -16,6 +16,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
 from enum import Enum
+from pathlib import Path
 from learning.storage_manager import StorageManager
 
 
@@ -83,10 +84,11 @@ class SelfEvolvingLearner:
     can NEVER be modified autonomously.
     """
     
-    def __init__(self, storage_path: str = "/home/ubuntu/under-pressure-looming/learning/data"):
-        self.storage_path = storage_path
+    def __init__(self, storage_path: str | Path | None = None):
+        base_path = Path(storage_path) if storage_path else Path(__file__).resolve().parent / "data"
+        self.storage_path = base_path
         self.storage = StorageManager(
-            storage_path=storage_path,
+            storage_path=base_path,
             max_active_decisions=1000,  # Keep last 1000 in active file
             retention_days=365  # Keep archives for 1 year
         )

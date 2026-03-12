@@ -4,7 +4,11 @@ Coordinates all agents (Grok, Gtopps, Gem) with the core system.
 """
 
 import sys
-sys.path.append('/home/ubuntu/under-pressure-looming')
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from typing import Dict, Any, Optional
 from core.system import system, SystemResponse
