@@ -203,7 +203,7 @@ print(response.response_text)  # Educational guidance
 
 ### Run Tests
 ```bash
-cd /home/ubuntu/under-pressure-looming
+cd /path/to/under-pressure-looming
 python3 tests/test_scenarios.py
 ```
 

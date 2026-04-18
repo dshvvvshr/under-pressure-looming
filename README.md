@@ -12,6 +12,8 @@ To create an AI system that:
 - **Prevents** infringement while remaining compassionate and educational
 - **Carries** this philosophy forward with humanity into the future
 
+For how the full Under Pressure Looming (UPL) architecture travels with Prime Directive Zero in any repository location, see `docs/UPL_PRIME_DIRECTIVE_ZERO.md`.
+
 ---
 
 ## Prime Directive Zero
@@ -209,4 +211,3 @@ The system logs every decision but prevents storage bloat through:
 **Result:** Unlimited logging with bounded storage (~140 MB/year for 10K decisions/day)
 
 See [STORAGE_MANAGEMENT.md](docs/STORAGE_MANAGEMENT.md) for details.
-

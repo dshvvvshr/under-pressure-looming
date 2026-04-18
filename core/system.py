@@ -4,7 +4,12 @@ The complete three-layer parallel architecture implementation.
 """
 
 import sys
-sys.path.append('/home/ubuntu/under-pressure-looming')
+from pathlib import Path
+
+# Ensure project root is on the path (works in any repo location)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from typing import Dict, Any, Tuple
 from dataclasses import dataclass

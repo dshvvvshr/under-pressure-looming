@@ -4,7 +4,11 @@ Tests the autonomous learning capabilities while respecting Core immutability.
 """
 
 import sys
-sys.path.append('/home/ubuntu/under-pressure-looming')
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from core.system import system
 

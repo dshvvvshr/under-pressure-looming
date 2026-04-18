@@ -4,8 +4,23 @@ Coordinates all agents (Grok, Gtopps, Gem) with the core system.
 """
 
 import sys
-sys.path.append('/home/ubuntu/under-pressure-looming')
+from pathlib import Path
 
+def _ensure_project_root_on_sys_path() -> Path:
+    """
+    Ensure the repository root is present on sys.path.
+
+    Keeping this logic in a single helper reduces the risk of it
+    drifting from similar bootstrapping code in other modules/tests.
+    """
+    project_root = Path(__file__).resolve().parents[1]
+    project_root_str = str(project_root)
+    if project_root_str not in sys.path:
+        sys.path.append(project_root_str)
+    return project_root
+
+
+PROJECT_ROOT = _ensure_project_root_on_sys_path()
 from typing import Dict, Any, Optional
 from core.system import system, SystemResponse
 from layers.core_layer import CoreDecision

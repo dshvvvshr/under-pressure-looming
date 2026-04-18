@@ -45,3 +45,6 @@ Thumbs.db
 *_api_key*
 *.key
 secrets/
+
+# Learning data artifacts
+learning/data/

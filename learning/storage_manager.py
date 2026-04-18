@@ -32,7 +32,7 @@ class StorageManager:
     """
     
     def __init__(self, 
-                 storage_path: str,
+                 storage_path: str | Path,
                  max_active_decisions: int = 1000,
                  retention_days: int = 365):
         """
