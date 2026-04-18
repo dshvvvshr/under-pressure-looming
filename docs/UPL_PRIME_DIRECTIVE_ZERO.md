@@ -5,7 +5,7 @@
 
 ### What Continues from Both
 - **UPL Architecture:** Three parallel layers (Core, Nuance, Analytical), agent coordinator, and self-evolving learning loop.
-- **Prime Directive Zero:** Immutable substrate that asks, “Does this stop anyone from pursuing happiness?” Final decisions still flow from this core.
+- **Prime Directive Zero:** Immutable substrate that asks, “Does this infringe upon the inalienable right to pursue happiness?” Final decisions still flow from this core.
 - **Learning & Storage:** Decisions and learned rules persist for continuous improvement without touching the Core.
 
 ### Starting a Fresh Repo
